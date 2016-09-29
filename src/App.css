@@ -1,0 +1,44 @@
+.app {
+  padding: 1em;
+}
+
+/* Rule */
+.rule__header {
+  text-align: center;
+}
+
+.rule__title {
+  font-size: 50px;
+  margin-bottom: 0;
+}
+
+.rule__category {
+  font-size: 16px;
+  margin-top: 0;
+  margin-bottom: 4px;
+}
+
+.rule__configurations {
+  display: flex;
+  justify-content: center;
+}
+
+.rule__source {
+  font-size: 14px;
+  text-align: center;
+}
+
+.rule__configuration {
+  margin: 0 1em;
+  border: 0;
+  min-width: 200px;
+  min-height: 400px;
+  font-size: 2em;
+}
+
+/* Configuration */
+.configuration {
+  padding: 1em;
+  background: #fff;
+  cursor: pointer;
+}
