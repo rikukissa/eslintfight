@@ -1,5 +1,6 @@
 {
   "name": "eslint-fight",
+  "homepage": "http://rikukissa.github.io/eslintfight",
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
