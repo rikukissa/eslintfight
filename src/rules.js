@@ -19,15 +19,15 @@ const rules = {
   indent: createRule(indentRule, 'indent', {
     schema: [indentRule.meta.schema[0]],
   }),
-  arrowParens: createRule(arrowParens, 'arrow-parens', {
+  'arrow-parens': createRule(arrowParens, 'arrow-parens', {
     schema: [arrowParens.meta.schema[0]],
   }),
-  jsxQuotes: createRule(jsxQuotes, 'jsx-quotes'),
-  keySpacing: createRule(keySpacing, 'key-spacing', { schema: [] }),
-  newCap: createRule(newCap, 'new-cap', { schema: [] }),
+  'jsx-quotes': createRule(jsxQuotes, 'jsx-quotes'),
+  'key-spacing': createRule(keySpacing, 'key-spacing', { schema: [] }),
+  'new-cap': createRule(newCap, 'new-cap', { schema: [] }),
 
   // React plugin
-  preferClasses: createRule(preferClasses, 'react/prefer-es6-class'),
+  'react/prefer-es6-class': createRule(preferClasses, 'react/prefer-es6-class'),
 };
 
 export default rules;

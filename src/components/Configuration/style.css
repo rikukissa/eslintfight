@@ -1,0 +1,10 @@
+.configuration {
+  font-size: 2em;
+  padding: 1em;
+  background: #fff;
+  cursor: pointer;
+  border: 0;
+}
+.configuration__popularity {
+  font-size: 0.5em;
+}

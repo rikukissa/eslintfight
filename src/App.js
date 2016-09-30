@@ -1,98 +1,10 @@
 import React from 'react';
-import { keys, flatten, values, capitalize } from 'lodash';
-import classNames from 'classnames';
-import product from 'cartesian-product';
-
+import { values } from 'lodash';
 import rules from './rules';
 import './App.css';
 
-function possibleValues(option) {
-  if (option.type === 'integer') {
-    return [2, 4];
-  }
-
-  if (option.oneOf) {
-    return flatten(option.oneOf.map(possibleValues));
-  }
-
-  if (option.enum) {
-    return values(option.enum);
-  }
-
-  if (option.type === 'object') {
-    const prod = product(keys(option.properties).map((optionName) =>
-      possibleValues(option.properties[optionName]).map((value) => ({
-        [optionName]: value,
-      }))
-    ));
-    return prod;
-  }
-
-  if (option.type === 'boolean') {
-    return [true, false];
-  }
-  return [];
-}
-
-function possibleConfigurations(schema) {
-  return product(schema.map(possibleValues));
-}
-
-function Configuration({ configuration, className, onClick }) {
-  const classN = classNames('configuration', className);
-
-  return (
-    <button onClick={onClick} className={classN}>
-      { JSON.stringify(configuration) }
-    </button>
-  );
-}
-
-function Rule({
-  rule,
-  onConfigurationSelected,
-  onRuleStatusSelected,
-}) {
-  const configurations = possibleConfigurations(rule.schema);
-  const configurable = configurations.length > 1;
-
-  return (
-    <div>
-      <div className="rule__header">
-        <h1 className="rule__title">{rule.name}</h1>
-        <h2 className="rule__category">{rule.category}</h2>
-        <a className="rule__source" rel="noopener noreferrer" target="_blank" href={`http://eslint.org/docs/rules/${rule.name}`}>
-          Documentation
-        </a>
-        <p className="rule__description">{capitalize(rule.description)}</p>
-      </div>
-      <div className="rule__statuses">
-        <button
-          onClick={() => onRuleStatusSelected('off')}
-        >Disabled</button>
-        <button
-          onClick={() => onRuleStatusSelected('warn')}
-        >Warn</button>
-        <button
-          onClick={() => onRuleStatusSelected('error')}
-        >Error</button>
-      </div>
-      <div className="rule__configurations">
-        {
-          configurable && configurations.map((configuration, i) =>
-            <Configuration
-              key={i}
-              onClick={() => onConfigurationSelected(configuration)}
-              configuration={configuration}
-              className="rule__configuration"
-            />
-          )
-        }
-      </div>
-    </div>
-  );
-}
-
+import Rule from './components/Rule';
+import { saveConfiguration, getRuleConfigurations } from './api';
 
 const allRules = values(rules);
 
@@ -101,45 +13,55 @@ export default React.createClass({
     return {
       visibleRuleIndex: 0,
       rules: {},
+      configurations: [],
     };
   },
-  nextRule() {
-    this.setState({
-      // Just loop the rules for now
-      visibleRuleIndex: (this.state.visibleRuleIndex + 1) % allRules.length,
+  componentDidMount() {
+    this.getRuleConfigurations(this.getVisibleRule());
+  },
+  getRuleConfigurations(rule) {
+    getRuleConfigurations(rule.name).then((configurations) => {
+      this.setState({ configurations });
     });
   },
-  setRuleStatus(status) {
-    const visibleRule = allRules[this.state.visibleRuleIndex];
-    const currentConfiguration = this.state.rules[visibleRule.name] || [];
-
-    this.setState({
-      rules: {
-        ...this.state.rules,
-        [visibleRule.name]: [status, ...currentConfiguration.slice(1)],
-      },
-    });
+  getVisibleRule() {
+    return allRules[this.state.visibleRuleIndex];
   },
   setRuleConfiguration(configuration) {
-    const visibleRule = allRules[this.state.visibleRuleIndex];
-    const currentConfiguration = this.state.rules[visibleRule.name] || ['error'];
-
+    const visibleRule = this.getVisibleRule();
+    console.log(configuration);
     this.setState({
       rules: {
         ...this.state.rules,
-        [visibleRule.name]: [currentConfiguration[0], configuration[0]],
+        [visibleRule.name]: configuration,
       },
+    });
+
+    this.nextRule();
+  },
+  nextRule() {
+    const visibleRule = this.getVisibleRule();
+
+    const nextRuleIndex = (this.state.visibleRuleIndex + 1) % allRules.length;
+    const nextRule = allRules[nextRuleIndex];
+
+    /* TODO */
+    saveConfiguration(visibleRule.name, this.state.rules[visibleRule.name]);
+    this.getRuleConfigurations(nextRule);
+
+    this.setState({
+      // Just loop the rules for now
+      visibleRuleIndex: nextRuleIndex,
     });
   },
   render() {
-    const visibleRule = allRules[this.state.visibleRuleIndex];
+    const visibleRule = this.getVisibleRule();
 
     return (
       <div className="app">
-        <button onClick={this.nextRule}>next</button>
         <Rule
           rule={visibleRule}
-          onRuleStatusSelected={this.setRuleStatus}
+          configurations={this.state.configurations}
           onConfigurationSelected={this.setRuleConfiguration}
         />
         <pre>

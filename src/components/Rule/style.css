@@ -1,0 +1,49 @@
+.rule__header {
+  text-align: center;
+}
+
+.rule__title {
+  font-size: 50px;
+  margin-bottom: 0;
+}
+
+.rule__category {
+  font-size: 16px;
+  margin-top: 0;
+  margin-bottom: 4px;
+}
+
+.rule__configurations, .rule__statuses {
+  display: flex;
+  max-width: 800px;
+  margin: auto;
+  justify-content: space-between;
+}
+
+.rule__source {
+  font-size: 14px;
+  text-align: center;
+}
+
+.rule__configuration {
+  min-width: 200px;
+  min-height: 400px;
+  flex-grow: 1;
+  margin: 0 1em;
+}
+
+.rule__configuration:first-child {
+  margin-left: 0;
+}
+
+.rule__configuration:last-child {
+  margin-right: 0;
+}
+
+.rule__statuses {
+  margin-top: 1em;
+}
+
+.rule__status {
+
+}
