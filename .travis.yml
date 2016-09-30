@@ -1,0 +1,8 @@
+language: node_js
+node_js:
+  - stable
+script: bash ./deploy.sh
+env:
+  global:
+  - ENCRYPTION_LABEL: "aee3d5dd43a9"
+  - COMMIT_AUTHOR_EMAIL: "riku.rouvila@gmail.com"
