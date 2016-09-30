@@ -1,0 +1,14 @@
+@import 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,600';
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  color: #222;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}

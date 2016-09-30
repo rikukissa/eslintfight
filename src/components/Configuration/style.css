@@ -1,0 +1,38 @@
+.configuration {
+  font-size: 3em;
+  padding: 1em;
+  cursor: pointer;
+  border: 0;
+  color: #fff;
+  background: linear-gradient(45deg, #4892e4 0%,#53a6f8 100%);
+  position: relative;
+  outline: 0;
+}
+.configuration:hover {
+  background: linear-gradient(45deg, #3b7dc7 0%,#458bd1 100%);
+}
+.configuration:after {
+  content: 'OR';
+  font-size: 12px;
+  position: absolute;
+  top: 50%;
+  margin-top: -10px;
+  right: -14px;
+  background: #fff;
+  color: #9a9a9a;
+  padding: 3px 6px;
+  z-index: 2;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.configuration:last-child:after {
+  display: none;
+}
+
+.configuration__popularity {
+  font-size: 14px;
+  position: absolute;
+  top: 1em;
+  left: 1em;
+}
