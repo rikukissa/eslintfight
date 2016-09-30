@@ -22,12 +22,18 @@ export default function Rule({
   return (
     <div>
       <div className="rule__header">
-        <h1 className="rule__title">{rule.name}</h1>
-        <h2 className="rule__category">{rule.category}</h2>
-        <a className="rule__source" rel="noopener noreferrer" target="_blank" href={`http://eslint.org/docs/rules/${rule.name}`}>
-          Documentation
-        </a>
-        <p className="rule__description">{capitalize(rule.description)}</p>
+        <h1 className="rule__title">
+          {rule.name}
+        </h1>
+        <h2 className="rule__category">
+          {rule.category}
+        </h2>
+        <p className="rule__description">
+          {capitalize(rule.description)}<br />
+          <a className="rule__source" rel="noopener noreferrer" target="_blank" href={`http://eslint.org/docs/rules/${rule.name}`}>
+            (Documentation)
+          </a>
+        </p>
       </div>
       <div className="rule__configurations">
         {

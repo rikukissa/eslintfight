@@ -1,16 +1,19 @@
-.rule__header {
-  text-align: center;
-}
-
 .rule__title {
   font-size: 50px;
   margin-bottom: 0;
+  text-transform: uppercase;
+  color: #555859;
 }
 
 .rule__category {
   font-size: 16px;
-  margin-top: 0;
+  color: #9e9d9d;
+  margin-top: -6px;
   margin-bottom: 4px;
+}
+
+.rule__description {
+  margin-bottom: 0;
 }
 
 .rule__configurations, .rule__statuses {
@@ -20,24 +23,21 @@
   justify-content: space-between;
 }
 
+.rule__configurations {
+  margin-top: 2em;
+}
+
 .rule__source {
-  font-size: 14px;
+  font-size: 12px;
+  color: #39babd;
+  text-decoration: none;
   text-align: center;
 }
 
 .rule__configuration {
-  min-width: 200px;
-  min-height: 400px;
   flex-grow: 1;
-  margin: 0 1em;
-}
-
-.rule__configuration:first-child {
-  margin-left: 0;
-}
-
-.rule__configuration:last-child {
-  margin-right: 0;
+  flex-shrink: 0;
+  flex-basis: 0px;
 }
 
 .rule__statuses {
