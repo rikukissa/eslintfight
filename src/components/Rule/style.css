@@ -1,6 +1,6 @@
 .rule__title {
   font-size: 50px;
-  margin-bottom: 0;
+  margin: 0;
   text-transform: uppercase;
   color: #555859;
 }
@@ -16,15 +16,12 @@
   margin-bottom: 0;
 }
 
-.rule__configurations, .rule__statuses {
+.rule__configurations, .rule__configurations--secondary {
   display: flex;
-  max-width: 800px;
-  margin: auto;
-  justify-content: space-between;
 }
 
 .rule__configurations {
-  margin-top: 2em;
+  margin-top: 1em;
 }
 
 .rule__source {
@@ -40,10 +37,14 @@
   flex-basis: 0px;
 }
 
-.rule__statuses {
-  margin-top: 1em;
+.rule__configuration--disabled {
+  background: linear-gradient(45deg, #e60378 0%,#af005a 100%);
 }
 
-.rule__status {
+.rule__configuration--disabled:hover {
+  background: linear-gradient(45deg, #cb036a 0%,#870146 100%);
+}
 
+.rule__configuration--secondary {
+  font-size: 16px;
 }

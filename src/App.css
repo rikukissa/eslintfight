@@ -28,9 +28,12 @@
   cursor: default;
 }
 
-.app__rule {
-  padding: 1em;
+.app__view {
+  padding: 2em;
   flex-grow: 1;
   display: flex;
   justify-content: center;
+}
+.app__rule {
+  min-width: 80%;
 }

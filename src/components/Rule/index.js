@@ -1,11 +1,15 @@
 import React from 'react';
 import { capitalize, isEqual } from 'lodash';
 import Configuration from '../Configuration';
-
+import classNames from 'classnames';
 import './style.css';
 
+function isDisabled(configuration) {
+  return isEqual(configuration, ['off']);
+}
+
 function hasOptions(configuration) {
-  return !(isEqual(configuration, ['off']) || isEqual(configuration, ['alert']));
+  return !(isDisabled(configuration) || isEqual(configuration, ['alert']));
 }
 
 export default function Rule({
@@ -18,6 +22,8 @@ export default function Rule({
 
   const configurationsWithoutOptions = configurations
     .filter(({ configuration }) => !hasOptions(configuration));
+
+  const hasSecondary = configurationsWithOptions.length > 0;
 
   return (
     <div>
@@ -48,17 +54,32 @@ export default function Rule({
           )
         }
       </div>
-      <div className="rule__statuses">
+      <div className="rule__configurations">
         {
-          configurationsWithoutOptions.map(({ configuration, popularity }, i) =>
-            <Configuration
-              key={i}
-              onClick={() => onConfigurationSelected(configuration)}
-              configuration={configuration[0]}
-              popularity={popularity}
-              className="rule__configuration rule__status"
-            />
-          )
+          configurationsWithoutOptions.map(({ configuration, popularity }, i) => {
+            const disabledOption = isDisabled(configuration);
+
+            const classes = classNames(
+              'rule__configuration',
+              {
+                'rule__configuration--secondary': hasSecondary,
+                'rule__configuration--disabled': disabledOption,
+                'rule__configuration--enabled': !disabledOption,
+              }
+            );
+
+            return (
+              <Configuration
+                key={i}
+                onClick={() => onConfigurationSelected(configuration)}
+                configuration={configuration[0]}
+                popularity={popularity}
+                className={classes}
+              >
+                { disabledOption ? 'Disabled' : 'Enabled' }
+              </Configuration>
+            );
+          })
         }
       </div>
     </div>

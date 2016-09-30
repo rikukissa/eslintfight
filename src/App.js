@@ -82,15 +82,15 @@ export default React.createClass({
             }
           </ul>
         </div>
-        <div className="app__rule">
-          <div>
+        <div className="app__view">
+          <div className="app__rule">
             <Rule
               rule={visibleRule}
               configurations={this.state.configurations}
               onConfigurationSelected={this.setRuleConfiguration}
             />
             <pre>
-              { JSON.stringify(this.state.rules, null, 2) }
+              { /*JSON.stringify(this.state.rules, null, 2)*/ }
             </pre>
           </div>
         </div>

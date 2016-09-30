@@ -33,7 +33,7 @@ export function getPossibleConfigurations(schema) {
   const schemaValues = schema.map(possibleValues);
 
   if (schemaValues.length === 0) {
-    return [['off'], ['alert']];
+    return [['alert'], ['off']];
   }
 
   const configurations =
