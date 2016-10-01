@@ -1,5 +1,5 @@
 .configuration {
-  font-size: 3em;
+  font-size: 36px;
   padding: 1em;
   cursor: pointer;
   border: 0;
@@ -8,9 +8,11 @@
   position: relative;
   outline: 0;
 }
+
 .configuration:hover {
   background: linear-gradient(45deg, #3b7dc7 0%,#458bd1 100%);
 }
+
 .configuration:after {
   content: 'OR';
   font-size: 12px;
@@ -28,6 +30,12 @@
 
 .configuration:last-child:after {
   display: none;
+}
+
+.configuration--object {
+  text-align: left;
+  font-size: 14px;
+  padding-top: 1.5em;
 }
 
 .configuration__popularity {

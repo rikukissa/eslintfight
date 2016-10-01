@@ -1,7 +1,7 @@
 import React from 'react';
 import { capitalize, isEqual } from 'lodash';
-import Configuration from '../Configuration';
 import classNames from 'classnames';
+import Configuration from '../Configuration';
 import './style.css';
 
 function isDisabled(configuration) {
@@ -25,6 +25,9 @@ export default function Rule({
 
   const hasSecondary = configurationsWithOptions.length > 0;
 
+  const mostPopular = configurationsWithOptions.slice(0, 2);
+  const otherConfigurations = configurationsWithOptions.slice(2);
+
   return (
     <div>
       <div className="rule__header">
@@ -43,7 +46,7 @@ export default function Rule({
       </div>
       <div className="rule__configurations">
         {
-          configurationsWithOptions.map(({ configuration, popularity }, i) =>
+          mostPopular.map(({ configuration, popularity }, i) =>
             <Configuration
               key={i}
               onClick={() => onConfigurationSelected(configuration)}
@@ -82,6 +85,35 @@ export default function Rule({
           })
         }
       </div>
+      {
+        otherConfigurations.length > 0 && (
+          <div>
+            <h2 className="rule__others__title">
+              Other options
+            </h2>
+            <div className="rule__configurations rule__configurations--other">
+              {
+                otherConfigurations.map(({ configuration, popularity }, i) => {
+                  const classes = classNames(
+                    'rule__configuration',
+                    'rule__configuration--other'
+                  );
+
+                  return (
+                    <Configuration
+                      key={i}
+                      onClick={() => onConfigurationSelected(configuration)}
+                      configuration={configuration[1]}
+                      popularity={popularity}
+                      className={classes}
+                    />
+                  );
+                })
+              }
+            </div>
+          </div>
+        )
+      }
     </div>
   );
 }

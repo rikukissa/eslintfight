@@ -48,3 +48,43 @@
 .rule__configuration--secondary {
   font-size: 16px;
 }
+
+.rule__configurations--other {
+  margin-top: 0;
+  display: block;
+}
+
+.rule__configuration--secondary,
+.rule__configuration--other {
+  text-align: left;
+}
+
+.rule__configuration--secondary .configuration__popularity,
+.rule__configuration--other .configuration__popularity {
+  font-size: inherit;
+}
+.rule__configuration--secondary:not(.configuration--object) .configuration__popularity,
+.rule__configuration--other:not(.configuration--object) .configuration__popularity {
+  position: static;
+  margin-right: 1em;
+}
+
+/*
+ * Other rules
+ */
+
+.rule__others__title {
+  color: #555859;
+  margin-bottom: 0.5em;
+  margin-top: 1em;
+}
+
+.rule__configuration--other {
+  width: 100%;
+  font-size: 16px;
+  margin-bottom: 1em;
+}
+
+.rule__configuration--other:after {
+  display: none;
+}
