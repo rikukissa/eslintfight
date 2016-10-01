@@ -1,15 +1,16 @@
 import React from 'react';
 import { values } from 'lodash';
 import classNames from 'classnames';
+import { connect } from 'react-redux';
 import rules from './rules';
 import './App.css';
 
 import Rule from './components/Rule';
-import { saveConfiguration, getRuleConfigurations } from './api';
+import { saveConfiguration, getConfigurations } from './ducks/rules';
 
 const allRules = values(rules);
 
-export default React.createClass({
+const App = React.createClass({
   getInitialState() {
     return {
       visibleRuleIndex: 0,
@@ -21,15 +22,18 @@ export default React.createClass({
     this.getRuleConfigurations(this.getVisibleRule());
   },
   getRuleConfigurations(rule) {
-    getRuleConfigurations(rule.name).then((configurations) => {
-      this.setState({ configurations });
-    });
+    this.props.dispatch(getConfigurations(rule));
   },
   getVisibleRule() {
     return allRules[this.state.visibleRuleIndex];
   },
   setRuleConfiguration(configuration) {
     const visibleRule = this.getVisibleRule();
+
+    this.props.dispatch(
+      saveConfiguration(visibleRule, configuration)
+    );
+
     this.setState({
       rules: {
         ...this.state.rules,
@@ -42,7 +46,6 @@ export default React.createClass({
   setRuleIndex(index) {
     const nextRule = allRules[index];
 
-    /* TODO */
     this.getRuleConfigurations(nextRule);
 
     this.setState({
@@ -51,11 +54,7 @@ export default React.createClass({
     });
   },
   nextRule() {
-    const visibleRule = this.getVisibleRule();
     const nextRuleIndex = (this.state.visibleRuleIndex + 1) % allRules.length;
-
-    /* TODO */
-    saveConfiguration(visibleRule.name, this.state.rules[visibleRule.name]);
     this.setRuleIndex(nextRuleIndex);
   },
   render() {
@@ -68,7 +67,7 @@ export default React.createClass({
             {
               allRules.map((rule, i) => {
                 const classes = classNames('sidebar__rule', {
-                  'sidebar__rule--selected': i === this.state.visibleRuleIndex
+                  'sidebar__rule--selected': i === this.state.visibleRuleIndex,
                 });
 
                 return (
@@ -86,7 +85,7 @@ export default React.createClass({
           <div className="app__rule">
             <Rule
               rule={visibleRule}
-              configurations={this.state.configurations}
+              configurations={this.props.configurations}
               onConfigurationSelected={this.setRuleConfiguration}
             />
             <pre>
@@ -98,3 +97,12 @@ export default React.createClass({
     );
   },
 });
+
+function mapStateToProps(state) {
+  return {
+    loggedIn: state.user.loggedIn,
+    configurations: state.rules.configurations,
+  };
+}
+
+export default connect(mapStateToProps)(App);
