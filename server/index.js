@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const AuthenticationClient = require('auth0').AuthenticationClient;
 const config = require('../config');
-const database = require('./database');
+const database = require('./services/database');
 
 const app = express();
 
@@ -34,11 +34,11 @@ function validateUserId(req, res, next) {
 }
 
 app.get('/rules', (req, res) => {
-  res.send([]);
+  database.getRules().then((rules) => res.send(rules));
 });
 
 app.get('/rules/:rule/configurations', (req, res) => {
-  database.getConfigurations(req.params.rule).then((configurations) => {
+  database.getConfigurations([req.params.rule]).then((configurations) => {
     res.send(configurations);
   });
 });
@@ -58,6 +58,7 @@ app.post('/rules/:rule/configurations', validateUserId, (req, res, next) => {
 
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
+  console.error(err);
   if (err instanceof Unauthorized) {
     res.status(401).send('Unauthorized');
     return;

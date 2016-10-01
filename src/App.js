@@ -1,14 +1,13 @@
 import React from 'react';
-import { values } from 'lodash';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
-import rules from './rules';
 import './App.css';
 
 import Rule from './components/Rule';
-import { saveConfiguration, getConfigurations } from './ducks/rules';
-
-const allRules = values(rules);
+import {
+  saveConfiguration,
+  getRules,
+} from './ducks/rules';
 
 const App = React.createClass({
   getInitialState() {
@@ -19,13 +18,10 @@ const App = React.createClass({
     };
   },
   componentDidMount() {
-    this.getRuleConfigurations(this.getVisibleRule());
-  },
-  getRuleConfigurations(rule) {
-    this.props.dispatch(getConfigurations(rule));
+    this.props.dispatch(getRules());
   },
   getVisibleRule() {
-    return allRules[this.state.visibleRuleIndex];
+    return this.props.rules[this.state.visibleRuleIndex];
   },
   setRuleConfiguration(configuration) {
     const visibleRule = this.getVisibleRule();
@@ -44,17 +40,13 @@ const App = React.createClass({
     this.nextRule();
   },
   setRuleIndex(index) {
-    const nextRule = allRules[index];
-
-    this.getRuleConfigurations(nextRule);
-
     this.setState({
       // Just loop the rules for now
       visibleRuleIndex: index,
     });
   },
   nextRule() {
-    const nextRuleIndex = (this.state.visibleRuleIndex + 1) % allRules.length;
+    const nextRuleIndex = (this.state.visibleRuleIndex + 1) % this.props.rules.length;
     this.setRuleIndex(nextRuleIndex);
   },
   render() {
@@ -65,7 +57,7 @@ const App = React.createClass({
         <div className="sidebar">
           <ul className="sidebar__rules">
             {
-              allRules.map((rule, i) => {
+              this.props.rules.map((rule, i) => {
                 const classes = classNames('sidebar__rule', {
                   'sidebar__rule--selected': i === this.state.visibleRuleIndex,
                 });
@@ -83,11 +75,15 @@ const App = React.createClass({
         </div>
         <div className="app__view">
           <div className="app__rule">
-            <Rule
-              rule={visibleRule}
-              configurations={this.props.configurations}
-              onConfigurationSelected={this.setRuleConfiguration}
-            />
+            {
+              visibleRule && (
+                <Rule
+                  rule={visibleRule}
+                  configurations={visibleRule.configurations}
+                  onConfigurationSelected={this.setRuleConfiguration}
+                />
+              )
+            }
             <pre>
               { /*JSON.stringify(this.state.rules, null, 2)*/ }
             </pre>
@@ -101,6 +97,7 @@ const App = React.createClass({
 function mapStateToProps(state) {
   return {
     loggedIn: state.user.loggedIn,
+    rules: state.rules.rules,
     configurations: state.rules.configurations,
   };
 }

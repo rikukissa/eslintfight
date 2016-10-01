@@ -1,5 +1,5 @@
-import { keys, flatten, values } from 'lodash';
-import product from 'cartesian-product';
+const { keys, flatten, values } = require('lodash');
+const product = require('cartesian-product');
 
 function possibleValues(option) {
   if (option.type === 'integer') {
@@ -20,7 +20,8 @@ function possibleValues(option) {
         [optionName]: value,
       }))
     ));
-    return prod;
+
+    return prod.map((p) => Object.assign({}, ...p));
   }
 
   if (option.type === 'boolean') {
@@ -29,7 +30,7 @@ function possibleValues(option) {
   return [];
 }
 
-export function getPossibleConfigurations(schema) {
+function getPossibleConfigurations(schema) {
   const schemaValues = schema.map(possibleValues);
 
   if (schemaValues.length === 0) {
@@ -41,3 +42,5 @@ export function getPossibleConfigurations(schema) {
 
   return [['off'], ...configurations];
 }
+
+module.exports.getPossibleConfigurations = getPossibleConfigurations;

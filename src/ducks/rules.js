@@ -1,6 +1,6 @@
 import {
-  saveRuleConfiguration,
-  getRuleConfigurations,
+  saveConfiguration as saveConfigurationRequest,
+  getRules as getRulesRequest,
 } from '../api';
 
 import { getIdToken } from './user';
@@ -9,6 +9,7 @@ import { getIdToken } from './user';
  * Actions
  */
 
+const RULES_LOADED = 'RULES_LOADED';
 const CONFIGURATIONS_LOADED = 'CONFIGURATIONS_LOADED';
 const CONFIGURATIONS_SAVED = 'CONFIGURATIONS_SAVED';
 
@@ -18,10 +19,17 @@ const CONFIGURATIONS_SAVED = 'CONFIGURATIONS_SAVED';
 
 const INITIAL_STATE = {
   configurations: [],
+  rules: [],
 };
 
 export default function reducer(state = INITIAL_STATE, action) {
   switch (action.type) {
+    case RULES_LOADED: {
+      return {
+        ...state,
+        rules: action.payload,
+      };
+    }
     case CONFIGURATIONS_LOADED: {
       return {
         ...state,
@@ -42,16 +50,16 @@ export function saveConfiguration(rule, configuration) {
     const state = getState();
     const idToken = getIdToken(state);
 
-    saveRuleConfiguration(rule.name, configuration, idToken).then(() => {
+    saveConfigurationRequest(rule.name, configuration, idToken).then(() => {
       dispatch({ type: CONFIGURATIONS_SAVED, payload: null });
     });
   };
 }
 
-export function getConfigurations(rule) {
+export function getRules() {
   return (dispatch) => {
-    getRuleConfigurations(rule.name).then((configurations) => {
-      dispatch({ type: CONFIGURATIONS_LOADED, payload: configurations });
+    getRulesRequest().then((rules) => {
+      dispatch({ type: RULES_LOADED, payload: rules });
     });
   };
 }
