@@ -1,8 +1,7 @@
 import Auth0Lock from 'auth0-lock';
+import config from '../../config';
 
-const clientId = 'g2XZpP62AiXeU3DwWKlQjxF68aL2us5M';
-const domain = 'ideahigh.eu.auth0.com';
-const lock = new Auth0Lock(clientId, domain, {
+const lock = new Auth0Lock(config.auth0.clientId, config.auth0.domain, {
   auth: {
     redirect: false,
   },
