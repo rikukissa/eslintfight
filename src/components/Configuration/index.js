@@ -17,7 +17,7 @@ export default function Configuration({ children, configuration, className, onCl
       { children || toString(configuration) }
       <div>
         <span className="configuration__popularity">
-          {Math.round(popularity) * 100}%
+          {Math.round(popularity * 100)}%
         </span>
       </div>
     </button>
