@@ -1,8 +1,12 @@
 language: node_js
 node_js:
-  - stable
+- stable
 script: bash ./deploy.sh
 env:
   global:
-  - ENCRYPTION_LABEL: "aee3d5dd43a9"
-  - COMMIT_AUTHOR_EMAIL: "riku.rouvila@gmail.com"
+  - ENCRYPTION_LABEL: aee3d5dd43a9
+  - COMMIT_AUTHOR_EMAIL: riku.rouvila@gmail.com
+deploy:
+  provider: heroku
+  api_key:
+    secure: P1lVnyXGjg3j9jKWQYKFathvn9LIxAK5eBDW+Ka43Ax9TwW5rFSP0IwnBS1YKaTuojKxCX1MwL+b2DQgvAx7NaRE36WlTaJSppM6XjHcAuYXi5PX1wzO3ERxlgp947bgNGq+QIdPX6DHXQ7qEuKmzd8MHvz4wf726RZjxXs8HAx07xLJbwADB6tlWSYe8DTc7hZRw7FINHZF/r3VYg9LaUzULsZ+CVBlfgv95IMSXE+JwA90x9AP8ztubpa1ncIimEDakEQMtstqcuaSlf/ujvpRlCZCahQGyc8rcXyjb/hPe5uNri/v7zPhPjkP+x37h88tADv1TZBaD29DgAmWU2PGE3NRV6Q8iXx1nzq9jXaBmQBGcZE0g31GEjMGC+V0jgPANUQlL30qYl91KCQ0Amm3fczvL1/zyifFk2aPmbwnsWCMs1BXD9rcgu7pGJcz230SCqj++AxRlGXVWWY58tqtj+a807G5ncFTAKHiwz5dwLkgJ6BcjBtxe0/um1A7LBaPFWgu5GxgHW58wl7Ng6IK2wuJNI87X0zUO9DpoZclBWq1h2HvtMKWXn5ltLuqh2IkzW0VpK1NMo5rQTzH6KBMZWfr8NPNKS9BOq+IBkBUYZff6FrQI4aVMcLXyBhraOc3W+xWcFenXJN94SDBM5h3fdiSXuo15I28rkxXW6c=
