@@ -1,8 +1,5 @@
 .configuration {
   font-size: 36px;
-  padding: 1em 1.5em;
-  cursor: pointer;
-  border: 0;
   color: #fff;
   background: linear-gradient(45deg, #4892e4 0%,#53a6f8 100%);
   position: relative;

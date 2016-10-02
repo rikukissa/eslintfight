@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { isObject, map } from 'lodash';
+import Button from '../Button';
 import './style.css';
 
 function toString(configuration) {
@@ -26,11 +27,11 @@ export default function Configuration({ children, configuration, className, onCl
   });
 
   return (
-    <button onClick={onClick} className={classes}>
+    <Button onClick={onClick} className={classes}>
       <span className="configuration__popularity">
         {Math.round(popularity * 100)}%
       </span>
       { children || toString(configuration) }
-    </button>
+    </Button>
   );
 }
