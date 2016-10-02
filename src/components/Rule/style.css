@@ -26,8 +26,6 @@
 
 .rule__source {
   font-size: 12px;
-  color: #39babd;
-  text-decoration: none;
   text-align: center;
 }
 
@@ -80,6 +78,10 @@
   color: #555859;
   margin-bottom: 0.5em;
   margin-top: 1em;
+}
+
+.rule__others__show-all {
+  text-align: center;
 }
 
 .rule__configuration--other {
