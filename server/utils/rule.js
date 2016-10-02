@@ -10,6 +10,10 @@ function possibleValues(option) {
     return flatten(option.oneOf.map(possibleValues));
   }
 
+  if (option.anyOf) {
+    return flatten(option.anyOf.map(possibleValues));
+  }
+
   if (option.enum) {
     return values(option.enum);
   }
