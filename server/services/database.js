@@ -1,5 +1,5 @@
 const knex = require('knex');
-const { isEqual } = require('lodash');
+const { isEqual, sum } = require('lodash');
 const knexConfig = require('../knexfile');
 const getPossibleConfigurations = require('../utils/rule').getPossibleConfigurations;
 
@@ -15,8 +15,16 @@ function toJSON(configuration) {
   });
 }
 
-function byPopularity(configuration1, configuration2) {
+function byPopularityDesc(configuration1, configuration2) {
   return configuration2.popularity - configuration1.popularity;
+}
+
+function votesForRule(rule) {
+  return sum(rule.configurations.map(({ votes }) => votes));
+}
+
+function byVotesAsc(rule1, rule2) {
+  return votesForRule(rule1) - votesForRule(rule2);
 }
 
 /*
@@ -31,18 +39,21 @@ function getConfiguration(rule, userId, ipAddress) {
 }
 
 function getConfigurations(rules) {
-  const sum = (memo, item) => memo + item;
-
   function toConfigurations(items) {
     return items.map((item) => {
-      const totalConfigurations = items
+      const votes = parseInt(item.count, 10);
+
+      const totalVotesForRule = sum(
+        items
         .filter(({ rule }) => item.rule === rule)
-        .map(({ count }) => parseInt(count, 10)).reduce(sum, 0);
+        .map(({ count }) => parseInt(count, 10))
+      );
 
       return {
         rule: item.rule,
         configuration: toJSON(item).configuration,
-        popularity: parseInt(item.count, 10) / totalConfigurations,
+        votes,
+        popularity: votes / totalVotesForRule,
       };
     });
   }
@@ -60,25 +71,30 @@ module.exports.getConfigurations = getConfigurations;
 function getRules() {
   const ruleNames = RULES.map(({ name }) => name);
 
-  return getConfigurations(ruleNames).then((configs) =>
+  return getConfigurations(ruleNames)
+  .then((configs) =>
     RULES.map((rule) => {
       const possibleConfigurations = getPossibleConfigurations(rule.schema);
 
       const storedConfigurations =
         configs.filter((config) => config.rule === rule.name);
 
-      const missingConfigurations = possibleConfigurations.filter((configuration) =>
+      const configurationsWithoutVotes = possibleConfigurations.filter((configuration) =>
         !storedConfigurations.some((conf) => isEqual(configuration, conf.configuration))
       ).map((configuration) => ({
         configuration,
         popularity: 0,
+        votes: 0,
       }));
 
       return Object.assign({}, rule, {
-        configurations: storedConfigurations.concat(missingConfigurations).sort(byPopularity),
+        configurations: storedConfigurations
+          .concat(configurationsWithoutVotes)
+          .sort(byPopularityDesc),
       });
     })
-  );
+  )
+  .then((rules) => rules.sort(byVotesAsc));
 }
 
 module.exports.getRules = getRules;
