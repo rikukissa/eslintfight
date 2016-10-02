@@ -14,11 +14,11 @@ function toString(configuration) {
       </thead>
       <tbody>
         <tr>
-          {map(configuration, (value, key) => <td key={key + value}>{value}</td>)}
+          {map(configuration, (value, key) => <td key={key + value}>{toString(value)}</td>)}
         </tr>
       </tbody>
     </table>
-  ) : configuration;
+  ) : configuration.toString();
 }
 
 export default function Configuration({ children, configuration, className, onClick, popularity }) {

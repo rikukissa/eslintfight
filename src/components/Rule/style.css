@@ -65,6 +65,11 @@
   margin-right: 1em;
 }
 
+.rule__configuration--secondary.configuration--object,
+.rule__configuration--other.configuration--object {
+  padding-top: 1em;
+}
+
 .rule__configuration--secondary .configuration--object__table,
 .rule__configuration--other .configuration--object__table {
   margin-top: 0.5em;
