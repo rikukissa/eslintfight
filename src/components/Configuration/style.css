@@ -1,12 +1,14 @@
 .configuration {
   font-size: 36px;
-  padding: 1em;
+  padding: 1em 1.5em;
   cursor: pointer;
   border: 0;
   color: #fff;
   background: linear-gradient(45deg, #4892e4 0%,#53a6f8 100%);
   position: relative;
   outline: 0;
+  display: flex;
+  justify-content: center;
 }
 
 .configuration:hover {
@@ -36,6 +38,13 @@
   text-align: left;
   font-size: 14px;
   padding-top: 1.5em;
+}
+.configuration--object__table {
+  border-collapse: collapse;
+}
+.configuration--object__table td:not(:first-child),
+.configuration--object__table th:not(:first-child) {
+  padding-left: 1em;
 }
 
 .configuration__popularity {

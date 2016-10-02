@@ -57,16 +57,19 @@
 .rule__configuration--secondary,
 .rule__configuration--other {
   text-align: left;
+  display: block;
 }
 
 .rule__configuration--secondary .configuration__popularity,
 .rule__configuration--other .configuration__popularity {
   font-size: inherit;
-}
-.rule__configuration--secondary:not(.configuration--object) .configuration__popularity,
-.rule__configuration--other:not(.configuration--object) .configuration__popularity {
   position: static;
   margin-right: 1em;
+}
+
+.rule__configuration--secondary .configuration--object__table,
+.rule__configuration--other .configuration--object__table {
+  margin-top: 0.5em;
 }
 
 /*

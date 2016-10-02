@@ -1,18 +1,26 @@
 import React from 'react';
 import classNames from 'classnames';
-import { isObject } from 'lodash';
+import { isObject, map } from 'lodash';
 import './style.css';
 
 function toString(configuration) {
   return isObject(configuration) ? (
-    <pre>
-      {JSON.stringify(configuration, null, 2)}
-    </pre>
+    <table className="configuration--object__table">
+      <thead>
+        <tr>
+          {Object.keys(configuration).map((key) => <th key={key}>{key}</th>)}
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          {map(configuration, (value, key) => <td key={key + value}>{value}</td>)}
+        </tr>
+      </tbody>
+    </table>
   ) : configuration;
 }
 
 export default function Configuration({ children, configuration, className, onClick, popularity }) {
-
   const classes = classNames('configuration', className, {
     'configuration--object': isObject(configuration),
   });
