@@ -1,25 +1,29 @@
 import React from 'react';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
+import { find } from 'lodash';
 import cssModules from 'react-css-modules';
-
+import { Link } from 'react-router';
 import Rule from 'components/Rule';
 import { saveConfiguration, getRules } from 'ducks/rules';
 
-import styles from './App.scss';
+import styles from './style.scss';
 
-const App = React.createClass({
-  getInitialState() {
-    return {
-      visibleRuleIndex: 0,
-      configurations: [],
-    };
+const RuleView = React.createClass({
+  contextTypes: {
+    router: React.PropTypes.object.isRequired
   },
   componentDidMount() {
     this.props.dispatch(getRules());
   },
   getVisibleRule() {
-    return this.props.rules[this.state.visibleRuleIndex];
+    if (!this.props.params.name) {
+      return this.props.rules[0];
+    }
+
+    return find(this.props.rules, {
+      name: this.props.params.name
+    });
   },
   setRuleConfiguration(configuration) {
     const visibleRule = this.getVisibleRule();
@@ -30,26 +34,27 @@ const App = React.createClass({
 
     this.nextRule();
   },
-  setRuleIndex(index) {
-    this.setState({
-      // Just loop the rules for now
-      visibleRuleIndex: index,
-    });
-  },
   nextRule() {
-    const nextRuleIndex = (this.state.visibleRuleIndex + 1) % this.props.rules.length;
-    this.setRuleIndex(nextRuleIndex);
+    const { rules } = this.props;
+    const { router } = this.context;
+    const currentIndex = rules.indexOf(this.getVisibleRule());
+
+    if (currentIndex === rules.length - 1) {
+      router.push(`/rules/${encodeURIComponent(rules[0].name)}`);
+    } else {
+      router.push(`/rules/${encodeURIComponent(rules[currentIndex + 1].name)}`);
+    }
   },
   render() {
     const visibleRule = this.getVisibleRule();
 
     return (
-      <div styleName="app">
+      <div styleName="view">
         <div styleName="sidebar">
           <ul styleName="rules">
             {
-              this.props.rules.map((rule, i) => {
-                const isSelected = i === this.state.visibleRuleIndex;
+              this.props.rules.map((rule) => {
+                const isSelected = rule === this.getVisibleRule();
 
                 const styleName = classNames({
                   rule: !isSelected,
@@ -57,17 +62,17 @@ const App = React.createClass({
                 });
 
                 return (
-                  <li
-                    onClick={() => this.setRuleIndex(i)}
-                    styleName={styleName}
-                    key={rule.name}
-                  >{rule.name}</li>
+                  <li key={rule.name}>
+                    <Link styleName={styleName} to={`/rules/${rule.name}`}>
+                      {rule.name}
+                    </Link>
+                  </li>
                 );
               })
             }
           </ul>
         </div>
-        <div styleName="view">
+        <div styleName="content">
           <div styleName="rule-wrapper">
             {
               visibleRule && (
@@ -93,4 +98,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(cssModules(App, styles));
+export default connect(mapStateToProps)(cssModules(RuleView, styles));

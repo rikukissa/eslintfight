@@ -1,5 +1,5 @@
 :local {
-  .app {
+  .view {
     width: 100%;
     min-height: 100%;
     display: flex;
@@ -22,6 +22,7 @@
     padding: 0.5em 1em;
     cursor: pointer;
     color: #555859;
+    display: block;
   }
 
   .rule--selected {
@@ -30,7 +31,7 @@
     cursor: default;
   }
 
-  .view {
+  .content {
     padding: 2em;
     flex-grow: 1;
     display: flex;
