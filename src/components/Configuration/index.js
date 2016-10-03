@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { isObject, map } from 'lodash';
 import cssModules from 'react-css-modules';
 import Button from 'components/Button';
-import { isDisabled } from 'utils/configuration';
+import { isDisabled, isEnabled } from 'utils/configuration';
 import styles from './style.scss';
 
 function toString(configurationValue) {
@@ -33,11 +33,13 @@ function Configuration({
 }) {
   const object = isObject(configurationValue);
   const disabled = isDisabled([configurationValue]);
+  const enabled = isEnabled([configurationValue]);
 
   const styleName = classNames({
     'configuration--object': object,
     'configuration--secondary': secondary,
     'configuration--disabled': disabled,
+    'configuration--enabled': enabled,
   }) || 'configuration';
 
   return (

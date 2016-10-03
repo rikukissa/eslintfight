@@ -1,6 +1,6 @@
 $blue: #53a6f8;
-$pink: #e60378;
-
+$pink: #f92e6b;
+$green: #54d054;
 $grey-medium: #9a9a9a;
 
 :local {
@@ -67,21 +67,20 @@ $grey-medium: #9a9a9a;
 
   .configuration--disabled {
     composes: configuration;
-    background:
-      linear-gradient(
-        45deg,
-        $pink 0%,
-        darken($pink, 10%) 100%
-      );
+    background: $pink;
   }
 
   .configuration--disabled:hover {
-    background:
-      linear-gradient(
-        45deg,
-        darken($pink, 10%) 0%,
-        darken($pink, 20%) 100%
-      );
+    background: darken($pink, 5%);
+  }
+
+  .configuration--enabled {
+    composes: configuration;
+    background: $green;
+  }
+
+  .configuration--enabled:hover {
+    background: darken($green, 5%);
   }
 
   .configuration--secondary {
