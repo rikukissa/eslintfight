@@ -1,37 +1,55 @@
 import React from 'react';
 import classNames from 'classnames';
 import { isObject, map } from 'lodash';
-import Button from '../Button';
-import './style.css';
+import cssModules from 'react-css-modules';
+import Button from 'components/Button';
+import { isDisabled } from 'utils/configuration';
+import styles from './style.scss';
 
-function toString(configuration) {
-  return isObject(configuration) ? (
-    <table className="configuration--object__table">
+function toString(configurationValue) {
+  return isObject(configurationValue) ? (
+    <table styleName="table">
       <thead>
         <tr>
-          {Object.keys(configuration).map((key) => <th key={key}>{key}</th>)}
+          {Object.keys(configurationValue).map((key) => <th key={key}>{key}</th>)}
         </tr>
       </thead>
       <tbody>
         <tr>
-          {map(configuration, (value, key) => <td key={key + value}>{toString(value)}</td>)}
+          {map(configurationValue, (value, key) => <td key={key + value}>{toString(value)}</td>)}
         </tr>
       </tbody>
     </table>
-  ) : configuration.toString();
+  ) : configurationValue.toString();
 }
 
-export default function Configuration({ children, configuration, className, onClick, popularity }) {
-  const classes = classNames('configuration', className, {
-    'configuration--object': isObject(configuration),
-  });
+function Configuration({
+  children,
+  secondary,
+  configurationValue,
+  className,
+  onClick,
+  popularity,
+}) {
+  const object = isObject(configurationValue);
+  const disabled = isDisabled([configurationValue]);
+
+  const styleName = classNames({
+    'configuration--object': object,
+    'configuration--secondary': secondary,
+    'configuration--disabled': disabled,
+  }) || 'configuration';
 
   return (
-    <Button onClick={onClick} className={classes}>
-      <span className="configuration__popularity">
+    <Button onClick={onClick} styleName={styleName} className={className}>
+      <span styleName="configuration__popularity">
         {Math.round(popularity * 100)}%
       </span>
-      { children || toString(configuration) }
+      { children || toString(configurationValue) }
     </Button>
   );
 }
+
+export default cssModules(Configuration, styles, {
+  allowMultiple: true,
+});

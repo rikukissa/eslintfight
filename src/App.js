@@ -1,13 +1,12 @@
 import React from 'react';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
-import './App.css';
+import cssModules from 'react-css-modules';
 
-import Rule from './components/Rule';
-import {
-  saveConfiguration,
-  getRules,
-} from './ducks/rules';
+import Rule from 'components/Rule';
+import { saveConfiguration, getRules } from 'ducks/rules';
+
+import styles from './App.scss';
 
 const App = React.createClass({
   getInitialState() {
@@ -53,19 +52,22 @@ const App = React.createClass({
     const visibleRule = this.getVisibleRule();
 
     return (
-      <div className="app">
-        <div className="sidebar">
-          <ul className="sidebar__rules">
+      <div styleName="app">
+        <div styleName="sidebar">
+          <ul styleName="rules">
             {
               this.props.rules.map((rule, i) => {
-                const classes = classNames('sidebar__rule', {
-                  'sidebar__rule--selected': i === this.state.visibleRuleIndex,
+                const isSelected = i === this.state.visibleRuleIndex;
+
+                const styleName = classNames({
+                  rule: !isSelected,
+                  'rule--selected': isSelected,
                 });
 
                 return (
                   <li
                     onClick={() => this.setRuleIndex(i)}
-                    className={classes}
+                    styleName={styleName}
                     key={rule.name}
                   >{rule.name}</li>
                 );
@@ -73,8 +75,8 @@ const App = React.createClass({
             }
           </ul>
         </div>
-        <div className="app__view">
-          <div className="app__rule">
+        <div styleName="view">
+          <div styleName="rule-wrapper">
             {
               visibleRule && (
                 <Rule
@@ -84,9 +86,6 @@ const App = React.createClass({
                 />
               )
             }
-            <pre>
-              { /*JSON.stringify(this.state.rules, null, 2)*/ }
-            </pre>
           </div>
         </div>
       </div>
@@ -102,4 +101,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps)(cssModules(App, styles));

@@ -1,9 +1,9 @@
 import {
   saveConfiguration as saveConfigurationRequest,
   getRules as getRulesRequest,
-} from '../api';
+} from 'api';
 
-import { getIdToken } from './user';
+import { getIdToken } from 'ducks/user';
 
 /*
  * Actions

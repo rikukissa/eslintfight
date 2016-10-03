@@ -1,14 +1,15 @@
 import React from 'react';
-import classNames from 'classnames';
+import cssModules from 'react-css-modules';
+import { omit } from 'lodash';
+import styles from './style.scss';
 
-import './style.css';
-
-export default function Button(props) {
+function Button(props) {
   const { className, children } = props;
-  const classes = classNames('button', className);
   return (
-    <button {...props} className={classes}>
+    <button {...omit(props, 'styles')} styleName="button" className={className}>
       {children}
     </button>
   );
 }
+
+export default cssModules(Button, styles);

@@ -1,18 +1,20 @@
 import React from 'react';
 import { capitalize, isEqual } from 'lodash';
-import classNames from 'classnames';
-import Configuration from '../Configuration';
-import './style.css';
+import cssModules from 'react-css-modules';
+
+import Configuration from 'components/Configuration';
+
+import styles from './style.scss';
 
 function isDisabled(configuration) {
-  return isEqual(configuration, ['off']);
+  return configuration[0] === 'off';
 }
 
 function hasOptions(configuration) {
   return !(isDisabled(configuration) || isEqual(configuration, ['alert']));
 }
 
-export default React.createClass({
+const Rule = React.createClass({
   getInitialState() {
     return {
       allConfigurationsVisible: false,
@@ -47,54 +49,46 @@ export default React.createClass({
 
     return (
       <div>
-        <div className="rule__header">
-          <h1 className="rule__title">
+        <div>
+          <h1 styleName="title">
             {rule.name}
           </h1>
-          <h2 className="rule__category">
+          <h2 styleName="category">
             {rule.category}
           </h2>
-          <p className="rule__description">
+          <p styleName="description">
             {capitalize(rule.description)}<br />
-            <a className="rule__source" rel="noopener noreferrer" target="_blank" href={`http://eslint.org/docs/rules/${rule.name}`}>
+            <a styleName="source" rel="noopener noreferrer" target="_blank" href={`http://eslint.org/docs/rules/${rule.name}`}>
               (Documentation)
             </a>
           </p>
         </div>
-        <div className="rule__configurations">
+        <div styleName="configurations">
           {
             mostPopular.map(({ configuration, popularity }, i) =>
               <Configuration
                 key={i}
                 onClick={() => onConfigurationSelected(configuration)}
-                configuration={configuration[1]}
+                configurationValue={configuration[1]}
                 popularity={popularity}
-                className="rule__configuration"
+                styleName="configuration"
               />
             )
           }
         </div>
-        <div className="rule__configurations">
+        <div styleName="configurations">
           {
             configurationsWithoutOptions.map(({ configuration, popularity }, i) => {
               const disabledOption = isDisabled(configuration);
-
-              const classes = classNames(
-                'rule__configuration',
-                {
-                  'rule__configuration--secondary': hasSecondaryConfigurations,
-                  'rule__configuration--disabled': disabledOption,
-                  'rule__configuration--enabled': !disabledOption,
-                }
-              );
 
               return (
                 <Configuration
                   key={i}
                   onClick={() => onConfigurationSelected(configuration)}
-                  configuration={configuration[0]}
+                  secondary={hasSecondaryConfigurations}
+                  configurationValue={configuration[0]}
                   popularity={popularity}
-                  className={classes}
+                  styleName="configuration"
                 >
                   { disabledOption ? 'Disabled' : 'Enabled' }
                 </Configuration>
@@ -105,32 +99,25 @@ export default React.createClass({
         {
           otherConfigurations.length > 0 && (
             <div>
-              <h2 className="rule__others__title">
+              <h2 styleName="others__title">
                 Other options
               </h2>
-              <div className="rule__configurations rule__configurations--other">
+              <div styleName="configurations--other">
                 {
-                  visibleOtherConfigurations.map(({ configuration, popularity }, i) => {
-                    const classes = classNames(
-                      'rule__configuration',
-                      'rule__configuration--other'
-                    );
-
-                    return (
-                      <Configuration
-                        key={i}
-                        onClick={() => onConfigurationSelected(configuration)}
-                        configuration={configuration[1]}
-                        popularity={popularity}
-                        className={classes}
-                      />
-                    );
-                  })
+                  visibleOtherConfigurations.map(({ configuration, popularity }, i) => (
+                    <Configuration
+                      key={i}
+                      onClick={() => onConfigurationSelected(configuration)}
+                      configurationValue={configuration[1]}
+                      popularity={popularity}
+                      styleName="configuration--other"
+                    />
+                  ))
                 }
               </div>
               {
                 !allConfigurationsVisible && (
-                  <div className="rule__others__show-all">
+                  <div styleName="others__show-all">
                     <a href="#" onClick={this.showAllConfigurations}>
                       Show all available options
                     </a>
@@ -143,4 +130,8 @@ export default React.createClass({
       </div>
     );
   },
+});
+
+export default cssModules(Rule, styles, {
+  allowMultiple: true,
 });
