@@ -12,7 +12,6 @@ const App = React.createClass({
   getInitialState() {
     return {
       visibleRuleIndex: 0,
-      rules: {},
       configurations: [],
     };
   },
@@ -28,13 +27,6 @@ const App = React.createClass({
     this.props.dispatch(
       saveConfiguration(visibleRule, configuration)
     );
-
-    this.setState({
-      rules: {
-        ...this.state.rules,
-        [visibleRule.name]: configuration,
-      },
-    });
 
     this.nextRule();
   },

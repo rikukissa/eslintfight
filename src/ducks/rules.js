@@ -11,7 +11,8 @@ import { getIdToken } from 'ducks/user';
 
 const RULES_LOADED = 'RULES_LOADED';
 const CONFIGURATIONS_LOADED = 'CONFIGURATIONS_LOADED';
-const CONFIGURATIONS_SAVED = 'CONFIGURATIONS_SAVED';
+const CONFIGURATION_SAVED = 'CONFIGURATION_SAVED';
+export const SAVE_CONFIGURATION = 'SAVE_CONFIGURATION';
 
 /*
  * Reducer
@@ -50,8 +51,16 @@ export function saveConfiguration(rule, configuration) {
     const state = getState();
     const idToken = getIdToken(state);
 
+    dispatch({
+      type: SAVE_CONFIGURATION,
+      payload: { rule, configuration },
+    });
+
     saveConfigurationRequest(rule.name, configuration, idToken).then(() => {
-      dispatch({ type: CONFIGURATIONS_SAVED, payload: null });
+      dispatch({
+        type: CONFIGURATION_SAVED,
+        payload: { rule, configuration },
+      });
     });
   };
 }

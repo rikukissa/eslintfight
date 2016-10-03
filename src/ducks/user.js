@@ -1,4 +1,5 @@
 import Auth0Lock from 'auth0-lock';
+import { SAVE_CONFIGURATION } from 'ducks/rules';
 import config from '../../config';
 
 const lock = new Auth0Lock(config.auth0.clientId, config.auth0.domain, {
@@ -21,6 +22,7 @@ const INITIAL_STATE = {
   profile: JSON.parse(localStorage.getItem('profile')),
   idToken: storedIdToken,
   loggedIn: Boolean(storedIdToken),
+  rules: {},
 };
 
 export default function reducer(state = INITIAL_STATE, action) {
@@ -37,7 +39,15 @@ export default function reducer(state = INITIAL_STATE, action) {
         idToken,
       };
     }
-
+    case SAVE_CONFIGURATION: {
+      return {
+        ...state,
+        rules: {
+          ...state.rules,
+          [action.payload.rule.name]: action.payload.configuration,
+        },
+      };
+    }
     default:
       return state;
   }
