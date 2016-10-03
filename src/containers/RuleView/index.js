@@ -11,7 +11,7 @@ import styles from './style.scss';
 
 const RuleView = React.createClass({
   contextTypes: {
-    router: React.PropTypes.object.isRequired
+    router: React.PropTypes.object.isRequired,
   },
   componentDidMount() {
     this.props.dispatch(getRules());
@@ -22,7 +22,7 @@ const RuleView = React.createClass({
     }
 
     return find(this.props.rules, {
-      name: this.props.params.name
+      name: this.props.params.name,
     });
   },
   setRuleConfiguration(configuration) {
@@ -63,7 +63,7 @@ const RuleView = React.createClass({
 
                 return (
                   <li key={rule.name}>
-                    <Link styleName={styleName} to={`/rules/${rule.name}`}>
+                    <Link styleName={styleName} to={`/rules/${encodeURIComponent(rule.name)}`}>
                       {rule.name}
                     </Link>
                   </li>
