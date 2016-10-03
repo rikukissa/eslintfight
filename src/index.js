@@ -11,7 +11,7 @@ import {
   IndexRoute,
   Router,
   Route,
-  browserHistory,
+  hashHistory,
 } from 'react-router';
 import {
   syncHistoryWithStore,
@@ -40,15 +40,15 @@ const store = createStore(combineReducers({
   routing: routerReducer,
 }), applyMiddleware(thunk, authMiddleware));
 
-const history = syncHistoryWithStore(browserHistory, store);
+const history = syncHistoryWithStore(hashHistory, store);
 
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
       <Route path="/" component={App}>
         <IndexRoute component={RuleView} />
+        <Route path="rules/:name" component={RuleView} />
       </Route>
-      <Route path="rules/:name" component={RuleView} />
     </Router>
   </Provider>,
   document.getElementById('root')
