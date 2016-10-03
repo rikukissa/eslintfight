@@ -3,4 +3,43 @@
     width: 100%;
     height: 100%;
   }
+
+  .header {
+    height: 50px;
+    background: #f5da55;
+    position: relative;
+  }
+
+  .profile {
+    height: 100%;
+    padding: 0 1em;
+    right: 0;
+    top: 0;
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .login-link {
+    color: #555859;
+    cursor: pointer;
+    border: 0;
+    background: 0;
+    font: inherit;
+  }
+
+  .avatar {
+    width: 2em;
+    height: 2em;
+    border-radius: 1em;
+    margin-right: 5px;
+    vertical-align: middle;
+  }
+
+  .nickname {
+    vertical-align: middle;
+  }
 }
