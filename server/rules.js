@@ -1,7 +1,6 @@
 const { identity } = require('lodash');
 
 function createRuleObject(eslintRule, name, schemaFilter = identity) {
-  console.log(JSON.stringify(eslintRule.meta.schema));
   return {
     name,
     category: eslintRule.meta.docs.category,
