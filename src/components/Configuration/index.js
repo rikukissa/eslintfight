@@ -1,6 +1,7 @@
 import React from 'react';
 import cssModules from 'react-css-modules';
 import CodeExample from 'components/CodeExample';
+import getExample from 'examples';
 import styles from './style.scss';
 
 function Configuration({
@@ -11,6 +12,7 @@ function Configuration({
   className,
   mostPopular,
 }) {
+  const example = getExample(rule, configurationValue);
   return ( // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div onClick={onClick} className={className} styleName="configuration">
       <div styleName="header">
@@ -24,9 +26,15 @@ function Configuration({
           )
         }
       </div>
-      <div styleName="code">
-        <CodeExample rule={rule} configurationValue={configurationValue} />
-      </div>
+      {
+        example && (
+          <div styleName="code">
+            <CodeExample rule={rule} configurationValue={configurationValue}>
+              {example}
+            </CodeExample>
+          </div>
+        )
+      }
     </div>
   );
 }

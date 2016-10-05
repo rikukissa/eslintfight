@@ -1,17 +1,13 @@
 import React from 'react';
 import Highlight from 'react-highlight';
 import cssModules from 'react-css-modules';
-import getExample from 'examples';
 import styles from './style.scss';
 
-function CodeExample({
-  rule,
-  configurationValue,
-}) {
+function CodeExample({ children }) {
   return (
     <div styleName="code">
       <Highlight className="javascript">
-        {getExample(rule, configurationValue)}
+        {children}
       </Highlight>
     </div>
   );
