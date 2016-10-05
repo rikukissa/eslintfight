@@ -5,31 +5,28 @@ import { login } from 'ducks/user';
 
 import styles from './style.scss';
 
-const App = React.createClass({
-  render() {
-    return (
-      <div styleName="app">
-        <div styleName="header">
-          <div styleName="profile">
-            {
-              this.props.loggedIn ? (
-                <div>
-                  <img styleName="avatar" alt="avatar" src={this.props.profile.picture} />
-                  <span styleName="nickname">{this.props.profile.nickname}</span>
-                </div>
-              ) : (
-                <button styleName="login-link" onClick={this.props.login}>
-                  Login with Github
-                </button>
-              )
-            }
-          </div>
+function App(props) {
+  return (
+    <div styleName="app">
+      <div styleName="header">
+        <div styleName="profile">
+          {
+            props.loggedIn ? (
+              <div>
+                <img styleName="avatar" alt="avatar" src={props.profile.picture} />
+              </div>
+            ) : (
+              <button styleName="login-link" onClick={props.login}>
+                Login with Github
+              </button>
+            )
+          }
         </div>
-        { this.props.children }
       </div>
-    );
-  },
-});
+      { props.children }
+    </div>
+  );
+}
 
 function mapDispatchToProps(dispatch) {
   return {

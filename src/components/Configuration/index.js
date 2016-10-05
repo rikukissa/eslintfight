@@ -1,54 +1,33 @@
 import React from 'react';
-import classNames from 'classnames';
-import { isObject, map } from 'lodash';
 import cssModules from 'react-css-modules';
-import Button from 'components/Button';
-import { isDisabled, isEnabled } from 'utils/configuration';
+import CodeExample from 'components/CodeExample';
 import styles from './style.scss';
 
-function toString(configurationValue) {
-  return isObject(configurationValue) ? (
-    <table styleName="table">
-      <thead>
-        <tr>
-          {Object.keys(configurationValue).map((key) => <th key={key}>{key}</th>)}
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          {map(configurationValue, (value, key) => <td key={key + value}>{toString(value)}</td>)}
-        </tr>
-      </tbody>
-    </table>
-  ) : configurationValue.toString();
-}
-
 function Configuration({
-  children,
-  secondary,
   configurationValue,
-  className,
   onClick,
-  popularity,
+  rule,
+  children,
+  className,
+  mostPopular,
 }) {
-  const object = isObject(configurationValue);
-  const disabled = isDisabled([configurationValue]);
-  const enabled = isEnabled([configurationValue]);
-
-  const styleName = classNames({
-    'configuration--object': object,
-    'configuration--secondary': secondary,
-    'configuration--disabled': disabled,
-    'configuration--enabled': enabled,
-  }) || 'configuration';
-
-  return (
-    <Button onClick={onClick} styleName={styleName} className={className}>
-      <span styleName="configuration__popularity">
-        {Math.round(popularity * 100)}%
-      </span>
-      { children || toString(configurationValue) }
-    </Button>
+  return ( // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+    <div onClick={onClick} className={className} styleName="configuration">
+      <div styleName="header">
+        {children || configurationValue.toString()}
+        {
+          mostPopular && (
+            <div styleName="tag">
+              <i className="fa fa-star" />&nbsp;
+              Popular
+            </div>
+          )
+        }
+      </div>
+      <div styleName="code">
+        <CodeExample rule={rule} configurationValue={configurationValue} />
+      </div>
+    </div>
   );
 }
 

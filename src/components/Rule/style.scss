@@ -3,7 +3,7 @@ $grey-dark: #555859;
 
 :local {
   .title {
-    font-size: 50;
+    font-size: 50px;
     margin: 0;
     text-transform: uppercase;
     color: $grey-dark;
@@ -18,11 +18,20 @@ $grey-dark: #555859;
 
   .description {
     margin-bottom: 0;
+
+    p {
+      margin-bottom: 0;
+    }
   }
 
   .configurations {
     display: flex;
+    flex-wrap: wrap;
     margin-top: 1em;
+    margin-left: -0.5em;
+    margin-right: -0.5em;
+    flex-flow: row wrap;
+    justify-content: space-around;
   }
 
   .source {
@@ -31,38 +40,6 @@ $grey-dark: #555859;
   }
 
   .configuration {
-    flex-grow: 1;
-    flex-shrink: 0;
-    flex-basis: 0;
-  }
-
-  .configurations--other {
-    composes: configurations;
-    margin-top: 0;
-    display: block;
-  }
-
-  /*
-   * Other rules
-   */
-
-  .others__title {
-    color: $grey-dark;
-    margin-bottom: 0.5em;
-    margin-top: 1em;
-  }
-
-  .others__show-all {
-    text-align: center;
-  }
-
-  .configuration--other {
-    width: 100%;
-    font-size: 16px;
-    margin-bottom: 1em;
-  }
-
-  .configuration--other::after {
-    display: none;
+    margin: 0.5em;
   }
 }

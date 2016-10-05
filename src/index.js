@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
+import 'font-awesome/css/font-awesome.css';
 import {
   createStore,
   combineReducers,

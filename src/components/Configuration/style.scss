@@ -5,87 +5,59 @@ $grey-medium: #9a9a9a;
 
 :local {
   .configuration {
-    font-size: 36px;
-    color: white;
-    background: linear-gradient(45deg, $blue 0%, darken($blue, 10) 100%);
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
     position: relative;
-    outline: 0;
-    display: flex;
-    justify-content: center;
+    cursor: pointer;
+    margin: auto;
   }
 
-  .configuration:hover {
-    background:
-      linear-gradient(
-        45deg,
-        darken($blue, 10%) 0%,
-        darken($blue, 20%) 100%
-      );
+  .header {
+    padding: 1em;
+    background: $blue;
+    color: #305e8c;
+    font-weight: bold;
   }
 
-  .configuration::after {
-    content: 'OR';
+  .tag {
+    float: right;
+    background: #f5da55;
+    padding: 2px 4px;
     font-size: 12px;
-    position: absolute;
-    top: 50%;
-    margin-top: -10px;
-    right: -14px;
-    background: white;
-    color: $grey-medium;
-    padding: 3px 6px;
-    z-index: 2;
-    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-    border-radius: 4px;
+    border-radius: 3px;
+    color: #695b15;
   }
 
-  .configuration:last-child::after {
-    display: none;
-  }
-
-  .configuration__popularity {
-    font-size: 14px;
-    position: absolute;
-    top: 1em;
-    left: 1em;
-  }
-
-  .configuration--object {
-    composes: configuration;
-    text-align: left;
-    font-size: 14px;
-    padding-top: 1.5em;
-  }
-
-  .table {
-    border-collapse: collapse;
-  }
-
-  .table td:not(:first-child),
-  .table th:not(:first-child) {
-    padding-left: 1em;
-  }
-
-  .configuration--disabled {
-    composes: configuration;
-    background: $pink;
-  }
-
-  .configuration--disabled:hover {
-    background: darken($pink, 5%);
-  }
-
-  .configuration--enabled {
-    composes: configuration;
-    background: $green;
-  }
-
-  .configuration--enabled:hover {
-    background: darken($green, 5%);
-  }
-
-  .configuration--secondary {
-    composes: configuration;
-    font-size: 16px;
+  .code {
+    background: #272c33;
+    flex-grow: 1;
+    padding: 1.5em;
+    padding-bottom: 2.5em;
     display: flex;
+    font-size: 18px;
+    flex-direction: column;
+
+    pre {
+      margin: 0;
+    }
+
+    code {
+      padding: 0;
+    }
+  }
+
+  .info {
+    width: 100%;
+    height: 100px;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    background: #49515a;
+    border: 0;
+    padding: 1em;
+    color: white;
+    font-weight: 300;
+    font-size: 14px;
+    letter-spacing: 2px;
   }
 }
