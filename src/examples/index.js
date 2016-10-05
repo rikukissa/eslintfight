@@ -7,12 +7,20 @@ import reactPreferES6Class from 'examples/react-prefer-es6-class';
 import semi from 'examples/semi';
 import keySpacing from 'examples/key-spacing';
 import paddedBlocks from 'examples/padded-blocks';
+import newCap from 'examples/new-cap';
+import arrowParens from 'examples/arrow-parens';
+import noConsole from 'examples/no-console';
+import commaDangle from 'examples/comma-dangle';
 
 const EXAMPLES = {
   quotes,
   indent,
   semi,
+  'arrow-parens': arrowParens,
+  'comma-dangle': commaDangle,
+  'no-console': noConsole,
   'padded-blocks': paddedBlocks,
+  'new-cap': newCap,
   'space-before-function-paren': spaceBeforeFunctionParen,
   'jsx-quotes': jsxQuotes,
   'consistent-return': consistentReturn,
