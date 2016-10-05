@@ -1,46 +1,45 @@
-const indent = require('eslint/lib/rules/indent');
-const arrowParens = require('eslint/lib/rules/arrow-parens');
-const jsxQuotes = require('eslint/lib/rules/jsx-quotes');
-const keySpacing = require('eslint/lib/rules/key-spacing');
-const newCap = require('eslint/lib/rules/new-cap');
-const paddedBlocks = require('eslint/lib/rules/padded-blocks');
-const consistentReturn = require('eslint/lib/rules/consistent-return');
-const noConsole = require('eslint/lib/rules/no-console');
-const commaDangle = require('eslint/lib/rules/comma-dangle');
-const quotes = require('eslint/lib/rules/quotes');
-const spaceBeforeFnParen = require('eslint/lib/rules/space-before-function-paren');
+const { identity } = require('lodash');
 
-// React
-const preferClasses = require('eslint-plugin-react/lib/rules/prefer-es6-class');
-
-function createRule(esLintRule, name, overrides) {
-  return Object.assign({
+function createRuleObject(eslintRule, name, schemaFilter = identity) {
+  console.log(JSON.stringify(eslintRule.meta.schema));
+  return {
     name,
-    category: esLintRule.meta.docs.category,
-    description: esLintRule.meta.docs.description,
-    schema: esLintRule.meta.schema,
-  }, overrides);
+    category: eslintRule.meta.docs.category,
+    description: eslintRule.meta.docs.description,
+    recommended: eslintRule.meta.docs.recommended,
+    schema: schemaFilter(eslintRule.meta.schema),
+  };
 }
 
+function createRule(name, schemaFilter) {
+  // eslint-disable-next-line import/no-dynamic-require, global-require
+  const eslintRule = require(`eslint/lib/rules/${name}`);
+  return createRuleObject(eslintRule, name, schemaFilter);
+}
+
+function createReactRule(name, schemaFilter) {
+  // eslint-disable-next-line import/no-dynamic-require, global-require
+  const reactRule = require(`eslint-plugin-react/lib/rules/${name}`);
+  return createRuleObject(reactRule, `react/${name}`, schemaFilter);
+}
+
+
 module.exports = [
-  createRule(indent, 'indent', {
-    schema: [indent.meta.schema[0]],
-  }),
-  createRule(arrowParens, 'arrow-parens', {
-    schema: [arrowParens.meta.schema[0]],
-  }),
-  createRule(jsxQuotes, 'jsx-quotes'),
-  createRule(keySpacing, 'key-spacing', { schema: [] }),
-  createRule(newCap, 'new-cap', { schema: [] }),
-  createRule(paddedBlocks, 'padded-blocks'),
-  createRule(consistentReturn, 'consistent-return', { schema: [] }),
-  createRule(noConsole, 'no-console', { schema: [] }),
-  createRule(commaDangle, 'comma-dangle'),
-  createRule(spaceBeforeFnParen, 'space-before-function-paren'),
-  createRule(quotes, 'quotes', {
-    schema: [quotes.meta.schema[0]],
-  }),
+  createRule('indent', (schema) => [schema[0]]),
+  createRule('arrow-parens', (schema) => [schema[0]]),
+  createRule('jsx-quotes'),
+  createRule('key-spacing', () => []),
+  createRule('new-cap', () => []),
+  createRule('padded-blocks', () => [{ enum: ['always', 'never'] }]),
+  createRule('consistent-return', () => []),
+  createRule('no-console', () => []),
+  createRule('comma-dangle'),
+  createRule('semi', () => ([{
+    enum: ['always', 'never'],
+  }])),
+  createRule('space-before-function-paren', () => [{ enum: ['always', 'never'] }]),
+  createRule('quotes', (schema) => [schema[0]]),
 
   // React plugin
-  createRule(preferClasses, 'react/prefer-es6-class'),
+  createReactRule('prefer-es6-class'),
 ];
