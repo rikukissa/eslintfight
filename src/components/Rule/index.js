@@ -37,7 +37,6 @@ const Rule = React.createClass({
       .filter(({ configuration }) => !hasOptions(configuration));
 
     const hasSecondaryConfigurations = configurationsWithOptions.length > 0;
-    const visibleConfigurableOptions = configurationsWithOptions.slice(0, 3);
 
     return (
       <div>
@@ -56,10 +55,10 @@ const Rule = React.createClass({
           </div>
         </div>
         {
-          visibleConfigurableOptions.length > 0 && (
+          configurationsWithOptions.length > 0 && (
             <div styleName="configurations">
               {
-                visibleConfigurableOptions.map(({ configuration, popularity }, i) =>
+                configurationsWithOptions.map(({ configuration, popularity }, i) =>
                   <Configuration
                     key={i}
                     rule={rule}
