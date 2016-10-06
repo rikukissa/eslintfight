@@ -1,4 +1,20 @@
 export default {
+  never: `
+// good
+var foo = {
+    bar: "baz",
+    qux: "quux"
+};
+var arr = [1,2];
+
+// bad
+var foo = {
+    bar: "baz",
+    qux: "quux",
+};
+var arr = [1,2,];
+
+  `,
   always: `
 // good
 var foo = {
